@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
+/* ─── CSS custom properties (not @theme to avoid cascade conflicts) ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold: #B21F2D;
+  --gold-light: #D4404E;
+  --gold-dark: #8B1521;
+  --bg-1: #FAFAF8;
+  --bg-2: #F4F3EE;
+  --text: #1A1A1A;
+  --muted: #777777;
+  --border: #E0DDD4;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #FAFAF8;
+  color: #1A1A1A;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Cursor — desktop pointer devices only */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+}
+
+.cursor-dot {
+  position: fixed;
+  left: -100px;
+  top: -100px;
+  width: 10px;
+  height: 10px;
+  background: #B21F2D;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  left: -100px;
+  top: -100px;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(178, 31, 45, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, border-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #F4F3EE; }
+::-webkit-scrollbar-thumb { background: #B21F2D; border-radius: 2px; }
+
+::selection {
+  background: rgba(178, 31, 45, 0.2);
+  color: #1A1A1A;
+}
+
+/* ─── Custom component classes ─── */
+.section-label {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #B21F2D;
+}
+
+.section-title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.gold-text {
+  background: linear-gradient(135deg, #B21F2D 0%, #D4404E 50%, #B21F2D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #B21F2D;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hover-underline:hover::after {
+  width: 100%;
 }
