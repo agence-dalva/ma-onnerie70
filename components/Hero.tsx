@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const S3 = "https://local-fr-public.s3.eu-west-3.amazonaws.com/prod/webtool/userfiles/32223";
 
-const YOUTUBE_VIDEO_ID = "tR80jjRi4Fo";
+const YOUTUBE_VIDEO_ID = "1yH8gvheJhw";
 const HERO_IMAGE = `${S3}/Crea2025/Ma%C3%A7onnerie%2070.jpg`;
 
 export default function Hero() {
@@ -51,6 +51,9 @@ export default function Hero() {
             pointerEvents: "none",
           }}
         />
+
+        {/* Iframe cursor guard */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, cursor: "default" }} />
 
         {/* Overlays */}
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,10,10,0.88) 30%, rgba(10,10,10,0.35) 100%)" }} />

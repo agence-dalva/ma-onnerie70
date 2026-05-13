@@ -82,29 +82,13 @@ export default function About() {
               initial={{ opacity: 0, x: -40 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-0 left-0 w-3/4 h-[68%]"
+              className="absolute inset-0"
             >
               <Image
-                src={`${S3}/RECADRE%CC%81/IMG_5487%202.jpg`}
-                alt="Entrepôt Maçonnerie 70"
+                src="/photos/entreprise-familiale.JPG"
+                alt="Entreprise familiale Maçonnerie 70"
                 fill
                 className="object-cover"
-                unoptimized
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-0 right-0 w-3/5 h-[54%]"
-              style={{ border: "4px solid #F4F3EE" }}
-            >
-              <Image
-                src={`${S3}/RECADRE%CC%81/IMG_5931.jpg`}
-                alt="Parc matériel Maçonnerie 70"
-                fill
-                className="object-cover"
-                unoptimized
               />
             </motion.div>
             {/* Badge fondation */}
@@ -115,11 +99,8 @@ export default function About() {
               className="absolute bottom-10 left-4 z-10 p-4 md:p-5"
               style={{ background: "#B21F2D" }}
             >
-              <p className="text-xs mb-1" style={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-inter)" }}>
-                Fondée en
-              </p>
-              <p className="text-2xl font-bold leading-none" style={{ fontFamily: "var(--font-barlow)", color: "#fff" }}>
-                2010
+              <p className="text-xl font-bold leading-none" style={{ fontFamily: "var(--font-barlow)", color: "#fff" }}>
+                Depuis 2010
               </p>
             </motion.div>
           </div>
@@ -146,8 +127,7 @@ export default function About() {
               </p>
               <p className="text-sm leading-loose mt-4" style={{ color: "#666", fontFamily: "var(--font-inter)" }}>
                 Avec 7 artisans répartis en 2 équipes, notre entrepôt de 5 000 m² et un parc
-                matériel moderne (grue Potain, pelles hydrauliques, chargeur articulé), nous
-                disposons de tous les moyens pour mener à bien vos projets.
+                matériel moderne, nous disposons de tous les moyens pour mener à bien vos projets.
               </p>
             </motion.div>
 
@@ -177,27 +157,6 @@ export default function About() {
               </ul>
             </motion.div>
 
-            {/* Equipment */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="p-5 md:p-6"
-              style={{ border: "1px solid #E0DDD4", background: "#FFFFFF" }}
-            >
-              <p className="section-label mb-3">Notre matériel</p>
-              <div className="flex flex-wrap gap-2">
-                {["Grue Potain", "Pelles hydrauliques", "Camion amplirol + grue", "Chargeur articulé", "Outils Hilti", "Échafaudages sécurisés"].map((e) => (
-                  <span
-                    key={e}
-                    className="px-3 py-1.5 text-xs"
-                    style={{ background: "#F4F3EE", color: "#888", fontFamily: "var(--font-inter)", border: "1px solid #E8E6DF" }}
-                  >
-                    {e}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
       </div>

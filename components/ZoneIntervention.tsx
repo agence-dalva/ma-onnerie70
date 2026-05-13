@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
-import { zones } from "@/lib/data";
+
+const MapZone = dynamic(() => import("./MapZone"), { ssr: false });
 
 export default function ZoneIntervention() {
   const ref = useRef(null);
@@ -87,50 +89,24 @@ export default function ZoneIntervention() {
             </motion.div>
           </div>
 
-          {/* Departments */}
-          <div className="flex flex-col gap-2.5 md:gap-3">
-            {zones.map((zone, i) => (
-              <motion.div
-                key={zone.dept}
-                initial={{ opacity: 0, x: 40 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="group flex items-start gap-4 p-4 md:p-5 transition-all duration-300"
-                style={{ border: "1px solid #E0DDD4", background: "#FFFFFF" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(178,31,45,0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "#E0DDD4";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                }}
-              >
-                <div
-                  className="flex-shrink-0 w-11 h-11 flex items-center justify-center text-sm font-bold"
-                  style={{ background: "#F4F3EE", color: "#B21F2D", fontFamily: "var(--font-barlow)", border: "1px solid #E0DDD4" }}
-                >
-                  {zone.dept}
-                </div>
-                <div className="flex flex-col gap-1.5 min-w-0">
-                  <p className="font-bold text-sm" style={{ color: "#1A1A1A", fontFamily: "var(--font-barlow)" }}>
-                    {zone.name}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {zone.cities.map((city) => (
-                      <span
-                        key={city}
-                        className="px-2 py-0.5 text-xs"
-                        style={{ background: "#F4F3EE", color: "#888", fontFamily: "var(--font-inter)" }}
-                      >
-                        {city}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Map */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative overflow-hidden"
+            style={{ height: 460, border: "1px solid #E0DDD4" }}
+          >
+            <MapZone />
+            {/* Légende */}
+            <div
+              className="absolute bottom-4 left-4 z-[999] flex items-center gap-2 px-3 py-2"
+              style={{ background: "rgba(250,250,248,0.95)", border: "1px solid #E0DDD4", fontFamily: "var(--font-inter)" }}
+            >
+              <div style={{ width: 20, height: 2, borderTop: "2px dashed #B21F2D" }} />
+              <span className="text-xs" style={{ color: "#666" }}>Rayon 100 km</span>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

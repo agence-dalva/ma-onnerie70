@@ -60,7 +60,15 @@ export default function Navigation() {
     alignItems: "center",
     gap: "4px",
     position: "relative",
+    transition: "color 0.2s ease",
   });
+
+  const hoverOn = (e: React.MouseEvent<HTMLElement>) => {
+    (e.currentTarget as HTMLElement).style.color = "#B21F2D";
+  };
+  const hoverOff = (e: React.MouseEvent<HTMLElement>, active: boolean) => {
+    (e.currentTarget as HTMLElement).style.color = active ? "#B21F2D" : scrolled ? "#666" : "rgba(250,250,248,0.7)";
+  };
 
   return (
     <>
@@ -105,7 +113,10 @@ export default function Navigation() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="hover-underline"
                     style={{ ...navItemStyle(false), color: "#B21F2D", fontWeight: 600 }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#8B1521"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#B21F2D"; }}
                   >
                     {link.label}
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ flexShrink: 0 }}>
@@ -127,7 +138,10 @@ export default function Navigation() {
                 >
                   <button
                     onClick={() => handleNav(link.href)}
+                    className={isActive ? "" : "hover-underline"}
                     style={navItemStyle(isActive)}
+                    onMouseEnter={(e) => hoverOn(e)}
+                    onMouseLeave={(e) => hoverOff(e, isActive)}
                   >
                     {link.label}
                     <svg
@@ -197,7 +211,10 @@ export default function Navigation() {
               <li key={link.href} className="flex items-center">
                 <button
                   onClick={() => handleNav(link.href)}
+                  className={isActive ? "" : "hover-underline"}
                   style={navItemStyle(isActive)}
+                  onMouseEnter={(e) => hoverOn(e)}
+                  onMouseLeave={(e) => hoverOff(e, isActive)}
                 >
                   {link.label}
                   {isActive && (

@@ -35,10 +35,10 @@ export const services = [
     title: "Maisons Individuelles",
     subtitle: "Construction neuve",
     description:
-      "Construction de maisons individuelles clé en main. De la conception à la livraison, nous réalisons votre projet de vie avec expertise et passion.",
-    image: `${S3}/RECADRE%CC%81/IMG_5846.jpg`,
+      "Construction de maisons individuelles. De la conception à la livraison, nous réalisons votre projet de vie avec expertise et passion.",
+    image: "/photos/construction-neuve.jpg",
     icon: "🏠",
-    features: ["Plans & conception", "Fondations & structure", "Béton banché", "Finitions complètes"],
+    features: ["Plans & conception", "Fondations & structure", "Sous-sol", "R+1"],
     galleryCategory: "construction",
   },
   {
@@ -50,19 +50,19 @@ export const services = [
       "Donnez une nouvelle vie à votre habitat. Ouvertures, extensions latérales, création de pièces supplémentaires et rénovation complète.",
     image: `${S3}/RECADRE%CC%81/DSC_7843.jpg`,
     icon: "🔨",
-    features: ["Ouvertures de murs porteurs", "Extensions latérales", "Rénovation de façades", "Escaliers béton & pierre"],
+    features: ["Ouvertures de murs porteurs", "Extensions", "Aménagements extérieurs", "Escaliers"],
     galleryCategory: "renovation",
   },
   {
     id: "beton",
     slug: "beton-banche",
-    title: "Béton Banché",
+    title: "Béton Armé",
     subtitle: "Structure & solidité",
     description:
-      "Spécialistes du béton banché pour des constructions d'une solidité et d'une durabilité exemplaires. Murs, vides sanitaires, sous-sols.",
-    image: `${S3}/RECADRE%CC%81/IMG_5246.jpg`,
+      "Spécialistes du béton armé pour des constructions d'une solidité et d'une durabilité exemplaires. Murs, poteaux, dalles ...",
+    image: "/photos/beton-arme.jpg",
     icon: "⚙️",
-    features: ["Murs en béton banché", "Vides sanitaires", "Sous-sols", "Structures complexes"],
+    features: ["Murs en béton banché", "Prémur / prédalle", "Poteaux / poutres", "Dalle pleine", "Escaliers"],
     galleryCategory: "construction",
   },
   {
@@ -72,7 +72,7 @@ export const services = [
     subtitle: "Protection & esthétique",
     description:
       "Application d'enduits monocouche et de finitions pour protéger et embellir vos facades. Travail soigné et matériaux durables.",
-    image: `${S3}/RECADRE%CC%81/IMG_0687.jpg`,
+    image: "/photos/enduits-exterieurs.JPG",
     icon: "🎨",
     features: ["Enduits monocouche", "Finitions décoratives", "Isolation par l'extérieur", "Ravalement complet"],
     galleryCategory: "enduits",
@@ -83,7 +83,7 @@ export const services = [
     title: "Terrassement & VRD",
     subtitle: "Préparation du terrain",
     description:
-      "Décapage, nivellement, fondations radier et réseaux secs/humides. Nous maîtrisons toutes les étapes de préparation du terrain.",
+      "Décapage, nivellement, et fouilles. Nous maîtrisons toutes les étapes de préparation du terrain jusqu'au VRD.",
     image: `${S3}/RECADRE%CC%81/IMG_5509.jpg`,
     icon: "🚜",
     features: ["Terrassement général", "Fondations & radiers", "Réseaux VRD", "Drainage & assainissement"],

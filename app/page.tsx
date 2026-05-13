@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
-import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
@@ -10,6 +9,7 @@ import About from "@/components/About";
 import Gallery from "@/components/Gallery";
 import TikTokSection from "@/components/TikTokSection";
 import ZoneIntervention from "@/components/ZoneIntervention";
+import Reviews from "@/components/Reviews";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -23,8 +23,7 @@ export default function Home() {
 
   return (
     <>
-      <CustomCursor />
-      {loading && <LoadingScreen />}
+{loading && <LoadingScreen />}
       <main className={loading ? "opacity-0" : "opacity-100 transition-opacity duration-700"}>
         <Navigation />
         <section id="accueil">
@@ -43,6 +42,7 @@ export default function Home() {
           <TikTokSection />
         </section>
         <ZoneIntervention />
+        <Reviews />
         <section id="contact">
           <Contact />
         </section>
