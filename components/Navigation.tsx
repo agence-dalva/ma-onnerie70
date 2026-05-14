@@ -7,6 +7,24 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { siteConfig, navLinks, services } from "@/lib/data";
 
+function ServiceIcon({ id }: { id: string }) {
+  const p = { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none" as const, stroke: "#B21F2D", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className: "flex-shrink-0" };
+  switch (id) {
+    case "maisons": // Maison
+      return <svg {...p}><path d="M3 12l9-9 9 9"/><path d="M5 10v9h5v-5h4v5h5v-9"/></svg>;
+    case "renovation": // Marteau
+      return <svg {...p}><path d="M4 20l8-8"/><path d="M14 4l6 6-4 4-6-6 4-4z"/><path d="M10 14l2-2"/></svg>;
+    case "beton": // Camion toupie
+      return <svg {...p}><rect x="2" y="11" width="6" height="7" rx="1"/><path d="M2 14h6"/><circle cx="5" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M8 18h7"/><ellipse cx="15" cy="13" rx="5" ry="5"/><path d="M12 10l6 6M15 8v10"/><path d="M20 16l2 3"/></svg>;
+    case "enduits": // Taloche
+      return <svg {...p}><rect x="3" y="13" width="18" height="6" rx="0.5"/><rect x="8" y="7" width="8" height="6" rx="1"/></svg>;
+    case "terrassement": // Pelleteuse
+      return <svg {...p}><rect x="2" y="17" width="12" height="4" rx="2"/><rect x="3" y="12" width="8" height="6" rx="1"/><rect x="4" y="9" width="5" height="4" rx="0.5"/><path d="M11 14l4-5"/><path d="M15 9l4 3"/><path d="M19 12l-2 4h-4"/></svg>;
+    default:
+      return null;
+  }
+}
+
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -176,7 +194,7 @@ export default function Navigation() {
                         style={{ transform: "translateX(-50%)" }}
                       >
                         <div
-                          className="py-2 min-w-[240px]"
+                          className="py-2 min-w-[260px]"
                           style={{
                             background: "#FFFFFF",
                             border: "1px solid #E0DDD4",
@@ -187,12 +205,12 @@ export default function Navigation() {
                             <Link
                               key={s.id}
                               href={`/services/${s.slug}`}
-                              className="flex items-center gap-3 px-5 py-2.5 transition-all duration-200"
+                              className="flex items-center gap-4 px-5 py-3 transition-all duration-200"
                               style={{ fontFamily: "var(--font-inter)" }}
                               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#F4F3EE"; }}
                               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
                             >
-                              <span className="text-base">{s.icon}</span>
+                              <ServiceIcon id={s.id} />
                               <div>
                                 <p className="text-xs font-medium" style={{ color: "#1A1A1A" }}>{s.title}</p>
                                 <p className="text-[10px] tracking-wider uppercase" style={{ color: "#AAAAAA" }}>{s.subtitle}</p>
@@ -325,7 +343,7 @@ export default function Navigation() {
                                       onClick={() => setMenuOpen(false)}
                                       className="flex items-center gap-3 py-2.5 px-2 text-left"
                                     >
-                                      <span>{s.icon}</span>
+                                      <ServiceIcon id={s.id} />
                                       <span className="text-sm font-medium" style={{ color: "#1A1A1A", fontFamily: "var(--font-inter)" }}>{s.title}</span>
                                     </Link>
                                   ))}

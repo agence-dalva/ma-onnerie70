@@ -106,10 +106,10 @@ export default function LoadingScreen() {
             style={{ width: "clamp(240px, 50vw, 420px)" }}
           >
             {/* Trowel + bar */}
-            <div className="relative w-full" style={{ paddingTop: 34 }}>
+            <div className="relative w-full pt-0 sm:pt-[34px]">
               {/* Trowel icon — suit le pourcentage, positionné au-dessus de la barre */}
               <div
-                className="absolute"
+                className="absolute hidden sm:block"
                 style={{
                   left: `calc(${progress}% - 26px)`,
                   top: 0,

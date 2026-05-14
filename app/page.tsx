@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import About from "@/components/About";
+import Commitments from "@/components/Commitments";
 import Gallery from "@/components/Gallery";
 import TikTokSection from "@/components/TikTokSection";
 import ZoneIntervention from "@/components/ZoneIntervention";
@@ -35,10 +36,11 @@ export default function Home() {
         <section id="apropos">
           <About />
         </section>
-        <section id="realisations">
+        <Commitments />
+        <section id="realisations" className="hidden sm:block">
           <Gallery />
         </section>
-        <section id="videos">
+        <section id="videos" className="hidden sm:block">
           <TikTokSection />
         </section>
         <ZoneIntervention />

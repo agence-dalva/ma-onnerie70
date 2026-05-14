@@ -36,9 +36,9 @@ export const services = [
     subtitle: "Construction neuve",
     description:
       "Construction de maisons individuelles. De la conception à la livraison, nous réalisons votre projet de vie avec expertise et passion.",
-    image: "/photos/construction-neuve.jpg",
+    image: "/photos/construction-neuve.JPG",
     icon: "🏠",
-    features: ["Plans & conception", "Fondations & structure", "Sous-sol", "R+1"],
+    features: ["Plans & conception", "Fondations & structure", "Sous-sol & vides sanitaires", "Rez de chaussé & étages"],
     galleryCategory: "construction",
   },
   {
@@ -50,7 +50,7 @@ export const services = [
       "Donnez une nouvelle vie à votre habitat. Ouvertures, extensions latérales, création de pièces supplémentaires et rénovation complète.",
     image: `${S3}/RECADRE%CC%81/DSC_7843.jpg`,
     icon: "🔨",
-    features: ["Ouvertures de murs porteurs", "Extensions", "Aménagements extérieurs", "Escaliers"],
+    features: ["Ouvertures de murs porteurs", "Extensions", "Aménagements extérieurs", "Maçonnerie en pierres"],
     galleryCategory: "renovation",
   },
   {

@@ -101,10 +101,10 @@ export default function ZoneIntervention() {
             {/* Légende */}
             <div
               className="absolute bottom-4 left-4 z-[999] flex items-center gap-2 px-3 py-2"
-              style={{ background: "rgba(250,250,248,0.95)", border: "1px solid #E0DDD4", fontFamily: "var(--font-inter)" }}
+              style={{ background: "rgba(20,20,20,0.88)", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "var(--font-inter)" }}
             >
-              <div style={{ width: 20, height: 2, borderTop: "2px dashed #B21F2D" }} />
-              <span className="text-xs" style={{ color: "#666" }}>Rayon 100 km</span>
+              <div style={{ width: 12, height: 12, borderRadius: "2px", background: "#B21F2D", opacity: 0.85 }} />
+              <span className="text-xs" style={{ color: "rgba(255,255,255,0.75)" }}>Départements couverts</span>
             </div>
           </motion.div>
         </div>

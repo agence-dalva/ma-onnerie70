@@ -188,9 +188,25 @@ export default function Footer() {
           <p className="text-xs text-center sm:text-left" style={{ color: "#666", fontFamily: "var(--font-inter)" }}>
             © {new Date().getFullYear()} Maçonnerie 70 Père & Fils — Tous droits réservés
           </p>
-          <p className="text-xs" style={{ color: "#555", fontFamily: "var(--font-inter)" }}>
-            Champagney (70290) — SIRET : 832 225 007 00026
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <p className="text-xs" style={{ color: "#555", fontFamily: "var(--font-inter)" }}>
+              Champagney (70290) — SIRET : 832 225 007 00026
+            </p>
+            <p className="text-xs" style={{ color: "#555", fontFamily: "var(--font-inter)" }}>
+              Site réalisé par{" "}
+              <a
+                href="https://www.agence-dalva.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors duration-300"
+                style={{ color: "#B21F2D" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#D4404E")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#B21F2D")}
+              >
+                l&apos;agence Web DALVA
+              </a>
+            </p>
+          </div>
         </motion.div>
       </div>
     </footer>

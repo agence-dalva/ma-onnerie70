@@ -77,18 +77,20 @@ export default function About() {
         <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Images */}
-          <div className="relative hidden sm:block h-[420px] md:h-[520px]">
+          <div className="relative hidden sm:block">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0"
             >
               <Image
                 src="/photos/entreprise-familiale.JPG"
                 alt="Entreprise familiale Maçonnerie 70"
-                fill
-                className="object-cover"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto"
+                unoptimized
               />
             </motion.div>
             {/* Badge fondation */}
