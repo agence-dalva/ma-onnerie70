@@ -8,12 +8,21 @@ export interface ServiceSection {
   imageAlt?: string;
 }
 
+export interface ServiceProject {
+  name: string;
+  city: string;
+  enTete: string;
+  photos: Array<{ src: string; alt: string }>;
+}
+
 export interface ServiceDetail {
   slug: string;
   heroImage: string;
+  heroVideo?: string;
   pageDescription: string;
   sections: ServiceSection[];
   gallery: Array<{ src: string; alt: string }>;
+  projects?: ServiceProject[];
 }
 
 export const serviceDetails: ServiceDetail[] = [
@@ -21,6 +30,7 @@ export const serviceDetails: ServiceDetail[] = [
   {
     slug: "maison-individuelle",
     heroImage: `${S3}/RECADRE%CC%81/DJI_0310%202.jpg`,
+    heroVideo: "GlC8yrzRg6k",
     pageDescription:
       "Chez Maçonnerie 70 Père & Fils, nous savons que la construction de votre maison individuelle est bien plus qu'un simple chantier : c'est un projet de vie. En tant que maçons expérimentés, nous vous accompagnons dans la réalisation de votre rêve, de la première pierre jusqu'à la livraison, avec exigence et passion.",
     sections: [
@@ -38,8 +48,8 @@ export const serviceDetails: ServiceDetail[] = [
       {
         title: "Accompagnement sur-mesure avec nos architectes partenaires",
         text: "Bien que nous ne soyons pas promoteurs, nous avons l'habitude de travailler en étroite collaboration avec des architectes pour que votre maison soit parfaitement adaptée à vos besoins et à votre terrain. Nous intervenons dans un rayon de 100 kms autour de Champagney (70290), couvrant la Haute-Saône, le Doubs, le Territoire de Belfort, le Haut-Rhin et les Vosges.",
-        image: `${S3}/RECADRE%CC%81/IMG_5793.jpg`,
-        imageAlt: "Construction maison en brique",
+        image: "/photos/maisons-individuelles/image-section-02.jpg",
+        imageAlt: "Accompagnement sur-mesure maison individuelle",
       },
       {
         title: "Brique ou aggloméré : quel matériau choisir ?",
@@ -49,27 +59,84 @@ export const serviceDetails: ServiceDetail[] = [
           "Aggloméré : solution économique à l'achat, bonne solidité structurelle, facilité de mise en œuvre",
           "Les deux matériaux permettent de réaliser des maisons durables, performantes et esthétiques",
         ],
-        image: `${S3}/RECADRE%CC%81/IMG_5867.jpg`,
-        imageAlt: "Construction maison en aggloméré",
-      },
-      {
-        title: "Exemple de réalisations",
-        text: "Nous avons réalisé notamment une maison à Roppe en collaboration avec un promoteur, construite en brique (Homebric R=1,30m²/KW) avec sous-sol complet, plancher précontraint béton et escalier 2/4 tournant suspendu. À Ronchamp, une maison individuelle pour un particulier avec structure en aggloméré, semelles filantes, sous-sol, rez-de-chaussée et étage.",
-        items: [
-          "Implantation, semelles filantes / radier ferraillé et bétonné",
-          "Construction du sous-sol : béton banché, poteaux, plancher précontraint",
-          "Élévation en brique ou aggloméré, linteaux, coffrage, ferraillage",
-          "Escaliers béton : droit ou 2/4 tournant suspendu",
-          "Poutres préfabriquées et planchers précontraints béton",
-        ],
+        image: "/photos/maisons-individuelles/image-section-03.JPG",
+        imageAlt: "Brique ou aggloméré : choix des matériaux",
       },
     ],
-    gallery: [
-      { src: `${S3}/RECADRE%CC%81/DJI_0310%202.jpg`, alt: "Vue aérienne chantier" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5793.jpg`, alt: "Construction en brique" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5867.jpg`, alt: "Construction en aggloméré" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5846.jpg`, alt: "Maison individuelle" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5246.jpg`, alt: "Structure béton" },
+    gallery: [],
+    projects: [
+      {
+        name: "Maison à Champagney",
+        city: "Champagney — 70290",
+        enTete: "/photos/maisons-individuelles/champagney/en-tete.JPG",
+        photos: [
+          { src: "/photos/maisons-individuelles/champagney/IMG_5372.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5374.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5393.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5446.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5487.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5490.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5527.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5569.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5573.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5574.jpg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_5575.jpeg", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_4668.JPG", alt: "Chantier Champagney" },
+          { src: "/photos/maisons-individuelles/champagney/IMG_4669.JPG", alt: "Chantier Champagney" },
+        ],
+      },
+      {
+        name: "Maison à Roppe",
+        city: "Roppe — 90380",
+        enTete: "/photos/maisons-individuelles/roppe/en-tete.jpg",
+        photos: [
+          { src: "/photos/maisons-individuelles/roppe/IMG_4579.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_4984.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_4988.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5044.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5220.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5247.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5468.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5847.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5849.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5851.jpg", alt: "Chantier Roppe" },
+          { src: "/photos/maisons-individuelles/roppe/IMG_5852.jpg", alt: "Chantier Roppe" },
+        ],
+      },
+      {
+        name: "Maison à Ronchamp",
+        city: "Ronchamp — 70250",
+        enTete: "/photos/maisons-individuelles/ronchamp/en-tete.jpg",
+        photos: [
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_3325.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_3555.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_3747.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_3793.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_4025.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_4042.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_4208.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_4433.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_5165.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_5789.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_5790.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_5793.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6174.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6461.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6557.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6558.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6560.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6571.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6574.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6575.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6585.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6586.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6590.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6591.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6595.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_6596.jpg", alt: "Chantier Ronchamp" },
+          { src: "/photos/maisons-individuelles/ronchamp/IMG_7070.jpg", alt: "Chantier Ronchamp" },
+        ],
+      },
     ],
   },
 
@@ -123,13 +190,26 @@ export const serviceDetails: ServiceDetail[] = [
         imageAlt: "Organisation chantier rénovation",
       },
     ],
-    gallery: [
-      { src: `${S3}/RECADRE%CC%81/IMG_9342.jpg`, alt: "Rénovation chantier" },
-      { src: `${S3}/RECADRE%CC%81/IMG_2251.jpg`, alt: "Extension maison" },
-      { src: `${S3}/RECADRE%CC%81/IMG_0697.jpg`, alt: "Travaux maçonnerie" },
-      { src: `${S3}/RECADRE%CC%81/IMG_1279.jpg`, alt: "Chantier en cours" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5483.jpg`, alt: "Finitions maçonnerie" },
-      { src: `${S3}/RECADRE%CC%81/DSC_7843.jpg`, alt: "Rénovation façade" },
+    gallery: [],
+    projects: [
+      {
+        name: "Rénovation à Champagney",
+        city: "Champagney — 70290",
+        enTete: `${S3}/RECADRE%CC%81/IMG_9342.jpg`,
+        photos: [
+          { src: `${S3}/RECADRE%CC%81/IMG_2251.jpg`, alt: "Extension maison" },
+          { src: `${S3}/RECADRE%CC%81/IMG_0697.jpg`, alt: "Travaux maçonnerie" },
+        ],
+      },
+      {
+        name: "Extension à Héricourt",
+        city: "Héricourt — 70400",
+        enTete: `${S3}/RECADRE%CC%81/IMG_1279.jpg`,
+        photos: [
+          { src: `${S3}/RECADRE%CC%81/IMG_5483.jpg`, alt: "Finitions maçonnerie" },
+          { src: `${S3}/RECADRE%CC%81/DSC_7843.jpg`, alt: "Rénovation façade" },
+        ],
+      },
     ],
   },
 
@@ -183,13 +263,26 @@ export const serviceDetails: ServiceDetail[] = [
         imageAlt: "Béton décoratif",
       },
     ],
-    gallery: [
-      { src: `${S3}/RECADRE%CC%81/new.JPG`, alt: "Béton banché" },
-      { src: `${S3}/RECADRE%CC%81/IMG_3793.jpg`, alt: "Poteaux béton" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5245.jpg`, alt: "Murs béton armé" },
-      { src: `${S3}/RECADRE%CC%81/c0934216-54a3-4065-8e44-229798f49d88.jpg`, alt: "Dalle béton" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5940.jpg`, alt: "Béton décoratif" },
-      { src: `${S3}/RECADRE%CC%81/IMG_5246.jpg`, alt: "Ouvrage béton" },
+    gallery: [],
+    projects: [
+      {
+        name: "Béton banché à Lure",
+        city: "Lure — 70200",
+        enTete: `${S3}/RECADRE%CC%81/new.JPG`,
+        photos: [
+          { src: `${S3}/RECADRE%CC%81/IMG_3793.jpg`, alt: "Poteaux béton" },
+          { src: `${S3}/RECADRE%CC%81/IMG_5245.jpg`, alt: "Murs béton armé" },
+        ],
+      },
+      {
+        name: "Dalles et poteaux à Champagney",
+        city: "Champagney — 70290",
+        enTete: `${S3}/RECADRE%CC%81/c0934216-54a3-4065-8e44-229798f49d88.jpg`,
+        photos: [
+          { src: `${S3}/RECADRE%CC%81/IMG_5940.jpg`, alt: "Béton décoratif" },
+          { src: `${S3}/RECADRE%CC%81/IMG_5246.jpg`, alt: "Ouvrage béton" },
+        ],
+      },
     ],
   },
 
@@ -237,13 +330,26 @@ export const serviceDetails: ServiceDetail[] = [
         imageAlt: "Pointement maison en pierres à Champagney",
       },
     ],
-    gallery: [
-      { src: `${S3}/Crea2025/modif%2010.2.25/L%E2%80%99enduit-gratt%C3%A9-pr%C3%A8s-de-Belfort3.png`, alt: "Enduit gratté" },
-      { src: `${S3}/Crea2025/modif%2010.2.25/L%E2%80%99enduit-gratt%C3%A9-pr%C3%A8s-de-Belfort2.png`, alt: "Enduit gratté 2" },
-      { src: `${S3}/Crea2025/L%E2%80%99enduit%20taloch%C3%A9%20%C3%A0%20Champagney.webp`, alt: "Enduit taloché" },
-      { src: `${S3}/Crea2025/L%E2%80%99enduit-projet%C3%A9-pr%C3%A8s-de-Belfort.png`, alt: "Enduit projeté" },
-      { src: `${S3}/Crea2025/R%C3%A9paration%20de%20fissure%20%C3%A0%20Champagney.webp`, alt: "Réparation fissure" },
-      { src: `${S3}/Crea2025/Pointement%20des%20maisons%20en%20pierres%20%C3%A0%20Champagney.webp`, alt: "Pointement pierres" },
+    gallery: [],
+    projects: [
+      {
+        name: "Enduit gratté près de Belfort",
+        city: "Belfort — 90000",
+        enTete: `${S3}/Crea2025/modif%2010.2.25/L%E2%80%99enduit-gratt%C3%A9-pr%C3%A8s-de-Belfort3.png`,
+        photos: [
+          { src: `${S3}/Crea2025/modif%2010.2.25/L%E2%80%99enduit-gratt%C3%A9-pr%C3%A8s-de-Belfort2.png`, alt: "Enduit gratté" },
+          { src: `${S3}/Crea2025/L%E2%80%99enduit-projet%C3%A9-pr%C3%A8s-de-Belfort.png`, alt: "Enduit projeté" },
+        ],
+      },
+      {
+        name: "Enduit taloché à Champagney",
+        city: "Champagney — 70290",
+        enTete: `${S3}/Crea2025/L%E2%80%99enduit%20taloch%C3%A9%20%C3%A0%20Champagney.webp`,
+        photos: [
+          { src: `${S3}/Crea2025/R%C3%A9paration%20de%20fissure%20%C3%A0%20Champagney.webp`, alt: "Réparation fissure" },
+          { src: `${S3}/Crea2025/Pointement%20des%20maisons%20en%20pierres%20%C3%A0%20Champagney.webp`, alt: "Pointement pierres" },
+        ],
+      },
     ],
   },
 
@@ -306,14 +412,27 @@ export const serviceDetails: ServiceDetail[] = [
         imageAlt: "Canalisation à Champagney",
       },
     ],
-    gallery: [
-      { src: `${S3}/Crea2025/Projet%20de%20terrassement%20%C3%A0%20Champagney.webp`, alt: "Projet de terrassement" },
-      { src: `${S3}/Crea2025/Terrassement%20de%20pleine%20masse%20%C3%A0%20Champagney.webp`, alt: "Terrassement pleine masse" },
-      { src: `${S3}/Crea2025/D%C3%A9capage%20de%20terres%20v%C3%A9g%C3%A9tales%20%C3%A0%20Champagney.webp`, alt: "Décapage terres végétales" },
-      { src: `${S3}/Crea2025/Fondation%20au%20radier%20%C3%A0%20Champagney.webp`, alt: "Fondation au radier" },
-      { src: `${S3}/Crea2025/Syst%C3%A8mes%20de%20drainage%20%C3%A0%20Champagney.webp`, alt: "Systèmes de drainage" },
-      { src: `${S3}/Crea2025/Installation%20canal%20%C3%A0%20Champagney.webp`, alt: "Installation canal" },
-      { src: `${S3}/Crea2025/Canalisation%20%C3%A0%20Champagney.webp`, alt: "Canalisation" },
+    gallery: [],
+    projects: [
+      {
+        name: "Terrassement à Champagney",
+        city: "Champagney — 70290",
+        enTete: `${S3}/Crea2025/Projet%20de%20terrassement%20%C3%A0%20Champagney.webp`,
+        photos: [
+          { src: `${S3}/Crea2025/Terrassement%20de%20pleine%20masse%20%C3%A0%20Champagney.webp`, alt: "Terrassement pleine masse" },
+          { src: `${S3}/Crea2025/D%C3%A9capage%20de%20terres%20v%C3%A9g%C3%A9tales%20%C3%A0%20Champagney.webp`, alt: "Décapage terres végétales" },
+          { src: `${S3}/Crea2025/Fondation%20au%20radier%20%C3%A0%20Champagney.webp`, alt: "Fondation au radier" },
+        ],
+      },
+      {
+        name: "VRD à Héricourt",
+        city: "Héricourt — 70400",
+        enTete: `${S3}/Crea2025/Syst%C3%A8mes%20de%20drainage%20%C3%A0%20Champagney.webp`,
+        photos: [
+          { src: `${S3}/Crea2025/Installation%20canal%20%C3%A0%20Champagney.webp`, alt: "Installation canal" },
+          { src: `${S3}/Crea2025/Canalisation%20%C3%A0%20Champagney.webp`, alt: "Canalisation" },
+        ],
+      },
     ],
   },
   // ─── Transports 70 ────────────────────────────────────────────────────────

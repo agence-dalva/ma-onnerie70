@@ -25,11 +25,35 @@ export default function ServicePageContent({ service }: { service: Service }) {
 
       {/* ─── Hero ─── */}
       <div className="relative h-[65vh] min-h-[480px] overflow-hidden">
-        <Image src={heroImage} alt={service.title} fill priority className="object-cover" unoptimized />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,10,10,0.92) 35%, rgba(10,10,10,0.45) 100%)" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,10,10,0.75) 0%, transparent 55%)" }} />
+        {detail?.heroVideo ? (
+          <>
+            <motion.div
+              style={{ position: "absolute", inset: 0, zIndex: 1, background: "#0A0A0A" }}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 1, delay: 0 }}
+            />
+            <iframe
+              src={`https://www.youtube.com/embed/${detail.heroVideo}?autoplay=1&mute=1&loop=1&playlist=${detail.heroVideo}&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&playsinline=1`}
+              allow="autoplay; encrypted-media"
+              style={{
+                position: "absolute",
+                top: "50%", left: "50%",
+                width: "177.78vh", height: "100%",
+                minWidth: "100%", minHeight: "56.25vw",
+                transform: "translate(-50%, -50%)",
+                border: "none",
+                pointerEvents: "none",
+              }}
+            />
+          </>
+        ) : (
+          <Image src={heroImage} alt={service.title} fill priority className="object-cover" unoptimized />
+        )}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,10,10,0.92) 35%, rgba(10,10,10,0.45) 100%)", zIndex: 2 }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,10,10,0.75) 0%, transparent 55%)", zIndex: 2 }} />
 
-        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col justify-end pb-14 md:pb-20">
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col justify-end pb-14 md:pb-20" style={{ zIndex: 3 }}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -77,6 +101,11 @@ export default function ServicePageContent({ service }: { service: Service }) {
       {/* ─── Galerie ─── */}
       {detail && detail.gallery.length > 0 && (
         <GallerySection images={detail.gallery} />
+      )}
+
+      {/* ─── Projets ─── */}
+      {detail?.projects && detail.projects.length > 0 && (
+        <ProjectsSection projects={detail.projects} />
       )}
 
       {/* ─── Autres services ─── */}
@@ -203,7 +232,7 @@ function IntroSection({ service, detail }: { service: typeof services[0]; detail
             ))}
           </ul>
           <div className="grid grid-cols-2 gap-px mt-6" style={{ background: "#E0DDD4" }}>
-            {[{ value: "15 ans", label: "d'expérience" }, { value: "100 kms", label: "de rayon" }].map((s) => (
+            {[{ value: "15 ans", label: "d'expérience" }, { value: "100 kms", label: "de rayon d'action" }].map((s) => (
               <div key={s.label} className="flex flex-col items-center justify-center py-6 px-4 text-center" style={{ background: "#FAFAF8" }}>
                 <span className="text-2xl font-bold gold-text" style={{ fontFamily: "var(--font-barlow)" }}>{s.value}</span>
                 <span className="text-[10px] tracking-widest uppercase mt-1" style={{ color: "#AAA", fontFamily: "var(--font-inter)" }}>{s.label}</span>
@@ -480,6 +509,209 @@ function GallerySection({ images }: { images: Array<{ src: string; alt: string }
                 ))}
               </div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function ProjectsSection({ projects }: { projects: import("@/lib/serviceDetails").ServiceProject[] }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const thumbsRef = useRef<HTMLDivElement>(null);
+
+  type ActiveState = {
+    project: import("@/lib/serviceDetails").ServiceProject;
+    allPhotos: Array<{ src: string; alt: string }>;
+    index: number;
+  };
+  const [active, setActive] = useState<ActiveState | null>(null);
+  const [direction, setDirection] = useState(0);
+
+  const openProject = useCallback((project: import("@/lib/serviceDetails").ServiceProject, index = 0) => {
+    const allPhotos = [
+      { src: project.enTete, alt: project.name },
+      ...project.photos,
+    ];
+    setDirection(0);
+    setActive({ project, allPhotos, index });
+  }, []);
+
+  const closeLightbox = useCallback(() => setActive(null), []);
+  const prev = useCallback(() => {
+    if (!active) return;
+    setDirection(-1);
+    setActive({ ...active, index: (active.index - 1 + active.allPhotos.length) % active.allPhotos.length });
+  }, [active]);
+  const next = useCallback(() => {
+    if (!active) return;
+    setDirection(1);
+    setActive({ ...active, index: (active.index + 1) % active.allPhotos.length });
+  }, [active]);
+
+  useEffect(() => {
+    if (!active) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") prev();
+      else if (e.key === "ArrowRight") next();
+      else if (e.key === "Escape") closeLightbox();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [active, prev, next, closeLightbox]);
+
+  // Auto-scroll thumbnails to keep active thumb visible
+  useEffect(() => {
+    if (!active || !thumbsRef.current) return;
+    const el = thumbsRef.current.children[active.index] as HTMLElement;
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [active?.index]);
+
+  return (
+    <>
+      <div ref={ref} className="py-16 md:py-20" style={{ background: "#1A1A1A" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} className="section-label mb-3">
+            — Nos chantiers
+          </motion.p>
+          <div className="flex items-end justify-between gap-4 mb-10">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.1 }}
+              className="section-title"
+              style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: "#F5F4EF" }}
+            >
+              NOS <span className="gold-text">RÉALISATIONS</span>
+            </motion.h2>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="flex-shrink-0 hidden sm:block">
+              <Link
+                href="/realisations"
+                className="flex items-center gap-2 px-5 py-2.5 text-xs tracking-widest uppercase font-medium transition-all duration-300"
+                style={{ border: "1px solid rgba(178,31,45,0.5)", color: "#B21F2D", fontFamily: "var(--font-inter)" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#B21F2D"; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#B21F2D"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(178,31,45,0.5)"; }}
+              >
+                Voir toutes nos réalisations
+              </Link>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {projects.map((project, i) => (
+              <motion.div
+                key={project.name}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="group relative overflow-hidden cursor-pointer"
+                style={{ border: "1px solid #2A2A2A" }}
+                onClick={() => openProject(project, 0)}
+              >
+                <div className="relative overflow-hidden" style={{ paddingBottom: "75%" }}>
+                  <Image src={project.enTete} alt={project.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized />
+                  <div className="absolute inset-0 transition-opacity duration-300" style={{ background: "linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.15) 60%)" }} />
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <h3 className="text-base font-bold uppercase" style={{ color: "#F5F4EF", fontFamily: "var(--font-barlow)" }}>
+                      {project.name} — {project.city.split(" — ")[1]}
+                    </h3>
+                    <p className="text-xs mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 tracking-widest uppercase" style={{ color: "#aaa", fontFamily: "var(--font-inter)" }}>Voir les photos →</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bouton mobile uniquement */}
+          <div className="mt-6 sm:hidden">
+            <Link
+              href="/realisations"
+              className="flex items-center justify-center gap-2 w-full py-3 px-4 text-xs tracking-widest uppercase font-medium transition-all duration-300"
+              style={{ border: "1px solid rgba(178,31,45,0.5)", color: "#B21F2D", fontFamily: "var(--font-inter)" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#B21F2D"; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#B21F2D"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(178,31,45,0.5)"; }}
+            >
+              Voir toutes nos réalisations
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Lightbox projet */}
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+            style={{ background: "rgba(10,10,10,0.97)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeLightbox}
+          >
+            <motion.div
+              className="relative w-full max-w-5xl px-4 sm:px-16 flex flex-col"
+              initial={{ scale: 0.93, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.93, opacity: 0 }}
+              transition={{ ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Image principale */}
+              <div className="relative" style={{ aspectRatio: "16/10" }}>
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={active.index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="absolute inset-0"
+                  >
+                    <Image src={active.allPhotos[active.index].src} alt={active.allPhotos[active.index].alt} fill className="object-contain" unoptimized />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Infos + compteur */}
+              <div className="flex items-center justify-between mt-3 px-1 mb-4">
+                <p className="text-xs tracking-widest uppercase" style={{ color: "#888", fontFamily: "var(--font-inter)" }}>{active.project.name}</p>
+                <p className="text-xs tabular-nums" style={{ color: "#555", fontFamily: "var(--font-inter)" }}>
+                  {active.index + 1} / {active.allPhotos.length}
+                </p>
+              </div>
+
+              {/* Bande de miniatures */}
+              <div
+                ref={thumbsRef}
+                className="flex gap-2 overflow-x-auto pb-1"
+                style={{ scrollbarWidth: "none" }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {active.allPhotos.map((photo, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setDirection(i > active.index ? 1 : -1); setActive({ ...active, index: i }); }}
+                    className="flex-shrink-0 relative overflow-hidden transition-all duration-200"
+                    style={{
+                      width: 72, height: 48,
+                      border: i === active.index ? "2px solid #B21F2D" : "2px solid transparent",
+                      opacity: i === active.index ? 1 : 0.5,
+                    }}
+                  >
+                    <Image src={photo.src} alt={photo.alt} fill className="object-cover" unoptimized />
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            <button className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 flex items-center justify-center text-sm transition-all duration-200" style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#aaa" }} onClick={closeLightbox} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#B21F2D"; (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#aaa"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; }}>✕</button>
+            <button className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center transition-all duration-200" style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#aaa" }} onClick={(e) => { e.stopPropagation(); prev(); }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D"; (e.currentTarget as HTMLElement).style.background = "rgba(178,31,45,0.2)"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#aaa"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M15 18l-6-6 6-6" /></svg>
+            </button>
+            <button className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center transition-all duration-200" style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#aaa" }} onClick={(e) => { e.stopPropagation(); next(); }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D"; (e.currentTarget as HTMLElement).style.background = "rgba(178,31,45,0.2)"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#aaa"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

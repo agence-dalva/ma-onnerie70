@@ -184,12 +184,12 @@ export default function Contact() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <p className="text-xs tracking-widest uppercase" style={{ color: "#AAAAAA", fontFamily: "var(--font-inter)" }}>
-                  Horaires
+                  Horaires d'accueil
                 </p>
                 {siteConfig.hours.map((h) => (
                   <div key={h.day} className="flex items-center justify-between gap-4">
                     <span className="text-xs" style={{ color: "#888", fontFamily: "var(--font-inter)" }}>{h.day}</span>
-                    <span className="text-xs font-medium" style={{ color: h.time === "Fermé" ? "#AAAAAA" : "#1A1A1A", fontFamily: "var(--font-inter)" }}>{h.time}</span>
+                    <span className="text-xs font-medium text-right ml-auto" style={{ color: h.time === "Fermé" ? "#AAAAAA" : "#1A1A1A", fontFamily: "var(--font-inter)" }}>{h.time}</span>
                   </div>
                 ))}
               </div>
@@ -288,12 +288,11 @@ export default function Contact() {
                   onBlur={(e) => (e.currentTarget.style.borderColor = "#E0DDD4")}
                 >
                   <option value="">Choisir un service...</option>
-                  <option value="construction">Construction maison individuelle</option>
-                  <option value="renovation">Rénovation & Extension</option>
-                  <option value="beton">Béton banché</option>
-                  <option value="enduits">Enduits extérieurs</option>
+                  <option value="maisons">Maisons Individuelles</option>
+                  <option value="renovation">Rénovation & Extensions</option>
+                  <option value="beton">Béton Armé</option>
+                  <option value="enduits">Enduits Extérieurs</option>
                   <option value="terrassement">Terrassement & VRD</option>
-                  <option value="transport">Transports 70</option>
                   <option value="autre">Autre demande</option>
                 </select>
               </div>

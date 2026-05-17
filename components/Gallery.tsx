@@ -13,7 +13,7 @@ const categories = [
   { id: "enduits", label: "Enduits" },
 ];
 
-export default function Gallery() {
+export default function Gallery({ hideHeader = false }: { hideHeader?: boolean }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const ref = useRef(null);
@@ -47,27 +47,30 @@ export default function Gallery() {
     <section className="py-20 md:py-32" style={{ background: "#FAFAF8" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         {/* Header */}
-        <div ref={ref} className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-12 gap-4 md:gap-6">
-          <div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              className="section-label mb-3 md:mb-4"
-            >
-              — Notre travail
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="section-title"
-              style={{ fontSize: "clamp(2.2rem, 6vw, 5.5rem)", color: "#1A1A1A" }}
-            >
-              NOS<br />
-              <span className="gold-text">RÉALISATIONS</span>
-            </motion.h2>
+        {!hideHeader && (
+          <div ref={ref} className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-12 gap-4 md:gap-6">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                className="section-label mb-3 md:mb-4"
+              >
+                — Notre travail
+              </motion.p>
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="section-title"
+                style={{ fontSize: "clamp(2.2rem, 6vw, 5.5rem)", color: "#1A1A1A" }}
+              >
+                NOS<br />
+                <span className="gold-text">RÉALISATIONS</span>
+              </motion.h2>
+            </div>
           </div>
-        </div>
+        )}
+        <div ref={hideHeader ? ref : undefined} />
 
         {/* Filters */}
         <motion.div
@@ -266,13 +269,9 @@ function GalleryItem({ item, index, onClick }: { item: (typeof gallery)[0]; inde
           unoptimized
         />
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end p-4"
-          style={{ background: "linear-gradient(to top, rgba(26,26,26,0.75) 0%, transparent 60%)" }}
-        >
-          <p className="text-xs tracking-wider uppercase" style={{ color: "#D4404E", fontFamily: "var(--font-inter)" }}>
-            {item.alt}
-          </p>
-        </div>
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+          style={{ background: "linear-gradient(to top, rgba(26,26,26,0.35) 0%, transparent 60%)" }}
+        />
         <div
           className="absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           style={{ background: "rgba(250,250,248,0.9)", border: "1px solid rgba(178,31,45,0.4)" }}

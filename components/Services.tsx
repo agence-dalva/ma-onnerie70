@@ -42,8 +42,7 @@ export default function Services() {
             className="max-w-xs text-sm leading-relaxed md:text-right"
             style={{ color: "#777", fontFamily: "var(--font-inter)" }}
           >
-            De la fondation à la finition, nous maîtrisons chaque étape
-            de votre projet avec 7 artisans qualifiés à votre service.
+            De la fondation à l'aménagement extérieur, nous maîtrisons chaque étape de votre projet.
           </motion.p>
         </div>
 

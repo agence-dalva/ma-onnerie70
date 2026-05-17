@@ -14,8 +14,8 @@ export const siteConfig = {
   founded: "2010",
   team: "7 artisans",
   hours: [
-    { day: "Lun - Ven", time: "7h30 - 18h00" },
-    { day: "Samedi", time: "8h00 - 12h00" },
+    { day: "Du lundi au vendredi", time: "9h00 - 12h00 / 13h30 - 17h30" },
+    { day: "Samedi", time: "Sur rendez-vous" },
     { day: "Dimanche", time: "Fermé" },
   ],
   logo: `${S3}/modif28022025/logo-MACONNERIE%2070-3.webp`,
@@ -36,7 +36,7 @@ export const services = [
     subtitle: "Construction neuve",
     description:
       "Construction de maisons individuelles. De la conception à la livraison, nous réalisons votre projet de vie avec expertise et passion.",
-    image: "/photos/construction-neuve.JPG",
+    image: "/photos/maisons-individuelles/construction-neuve.JPG",
     icon: "🏠",
     features: ["Plans & conception", "Fondations & structure", "Sous-sol & vides sanitaires", "Rez de chaussé & étages"],
     galleryCategory: "construction",
@@ -60,7 +60,7 @@ export const services = [
     subtitle: "Structure & solidité",
     description:
       "Spécialistes du béton armé pour des constructions d'une solidité et d'une durabilité exemplaires. Murs, poteaux, dalles ...",
-    image: "/photos/beton-arme.jpg",
+    image: "/photos/beton-arme/beton-arme.jpg",
     icon: "⚙️",
     features: ["Murs en béton banché", "Prémur / prédalle", "Poteaux / poutres", "Dalle pleine", "Escaliers"],
     galleryCategory: "construction",
@@ -72,7 +72,7 @@ export const services = [
     subtitle: "Protection & esthétique",
     description:
       "Application d'enduits monocouche et de finitions pour protéger et embellir vos facades. Travail soigné et matériaux durables.",
-    image: "/photos/enduits-exterieurs.JPG",
+    image: "/photos/enduits-exterieurs/enduits-exterieurs.JPG",
     icon: "🎨",
     features: ["Enduits monocouche", "Finitions décoratives", "Isolation par l'extérieur", "Ravalement complet"],
     galleryCategory: "enduits",
@@ -191,7 +191,7 @@ export const navLinks = [
   { label: "Accueil", href: "#accueil" },
   { label: "Services", href: "#services" },
   { label: "À propos", href: "#apropos" },
-  { label: "Réalisations", href: "#realisations" },
+  { label: "Réalisations", href: "/realisations" },
   { label: "Vidéos", href: "#videos" },
   { label: "Contact", href: "#contact" },
   { label: "Transports 70", href: "https://www.transports70.fr", external: true },

@@ -37,10 +37,14 @@ export default function Navigation() {
   const isHomepage = pathname === "/";
 
   useEffect(() => {
+    if (!isHomepage) {
+      setScrolled(true);
+      return;
+    }
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHomepage]);
 
   useEffect(() => {
     if (!isHomepage) return;
