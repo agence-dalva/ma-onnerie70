@@ -6,13 +6,11 @@ import Script from "next/script";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
 import { siteConfig, tiktokVideoIds } from "@/lib/data";
 
 export default function VideosPage() {
   return (
     <div style={{ background: "#FAFAF8", minHeight: "100vh" }}>
-      <CustomCursor />
       <Navigation />
 
       {/* Hero */}

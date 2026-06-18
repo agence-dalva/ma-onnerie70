@@ -62,11 +62,13 @@ export default function Navigation() {
 
   const handleNav = (href: string) => {
     setMenuOpen(false);
-    if (isHomepage) {
+    if (isHomepage && href.startsWith("#")) {
       const id = href.replace("#", "");
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else if (href.startsWith("/") || href.startsWith("http")) {
+      router.push(href);
     } else {
-      router.push(`/${href}`);
+      router.push(`/#${href}`);
     }
   };
 
@@ -103,7 +105,7 @@ export default function Navigation() {
           height: scrolled ? 80 : 100,
           background: scrolled ? "rgba(250,250,248,0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(224,221,212,0.8)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(224,221,212,0.8)" : "1px solid transparent",
           transition: "height 0.4s ease, background 0.4s ease",
         }}
       >
@@ -256,19 +258,25 @@ export default function Navigation() {
         <div className="flex items-center gap-3">
           <a
             href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-xs tracking-widest uppercase font-medium transition-all duration-300"
-            style={{ border: "1px solid #B21F2D", color: "#B21F2D", fontFamily: "var(--font-inter)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "#B21F2D";
-              (e.currentTarget as HTMLElement).style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "transparent";
-              (e.currentTarget as HTMLElement).style.color = "#B21F2D";
-            }}
+            className="hidden md:inline-flex items-center gap-2 text-xs font-medium transition-colors duration-300"
+            style={{ color: scrolled ? "#666" : "rgba(250,250,248,0.6)", fontFamily: "var(--font-inter)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#B21F2D"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = scrolled ? "#666" : "rgba(250,250,248,0.6)"; }}
           >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+            </svg>
             {siteConfig.phone}
           </a>
+          <button
+            onClick={() => handleNav("#contact")}
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-widest uppercase font-medium transition-all duration-300"
+            style={{ background: "#B21F2D", color: "#fff", fontFamily: "var(--font-inter)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#8B1521"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#B21F2D"; }}
+          >
+            Contactez-nous
+          </button>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}

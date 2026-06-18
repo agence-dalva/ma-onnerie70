@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
 import { services, siteConfig } from "@/lib/data";
 import { getServiceDetail } from "@/lib/serviceDetails";
 
@@ -20,7 +19,6 @@ export default function ServicePageContent({ service }: { service: Service }) {
 
   return (
     <div style={{ background: "#FAFAF8", minHeight: "100vh" }}>
-      <CustomCursor />
       <Navigation />
 
       {/* ─── Hero ─── */}
@@ -50,8 +48,8 @@ export default function ServicePageContent({ service }: { service: Service }) {
         ) : (
           <Image src={heroImage} alt={service.title} fill priority className="object-cover" unoptimized />
         )}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,10,10,0.92) 35%, rgba(10,10,10,0.45) 100%)", zIndex: 2 }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,10,10,0.75) 0%, transparent 55%)", zIndex: 2 }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,10,10,0.70) 35%, rgba(10,10,10,0.25) 100%)", zIndex: 2 }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,10,10,0.55) 0%, transparent 55%)", zIndex: 2 }} />
 
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col justify-end pb-14 md:pb-20" style={{ zIndex: 3 }}>
           <motion.div

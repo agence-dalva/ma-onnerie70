@@ -75,7 +75,7 @@ export default function Gallery({ hideHeader = false }: { hideHeader?: boolean }
         {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-10"
         >
@@ -89,6 +89,8 @@ export default function Gallery({ hideHeader = false }: { hideHeader?: boolean }
                 background: activeFilter === cat.id ? "#B21F2D" : "transparent",
                 color: activeFilter === cat.id ? "#fff" : "#888",
                 border: `1px solid ${activeFilter === cat.id ? "#B21F2D" : "#E0DDD4"}`,
+                outline: "none",
+                cursor: "pointer",
               }}
             >
               {cat.label}

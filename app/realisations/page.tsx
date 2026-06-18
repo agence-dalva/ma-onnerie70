@@ -5,20 +5,19 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
 import Gallery from "@/components/Gallery";
 
 export default function RealisationsPage() {
   return (
     <div style={{ background: "#FAFAF8", minHeight: "100vh" }}>
-      <CustomCursor />
       <Navigation />
 
       {/* Hero */}
       <div
-        className="relative flex items-end pb-16 md:pb-20"
+        className="relative flex flex-col justify-end pb-16 md:pb-20"
         style={{
-          height: 320,
+          minHeight: 320,
+          paddingTop: 100,
           background: "linear-gradient(135deg, #1A1A1A 0%, #242424 100%)",
         }}
       >
