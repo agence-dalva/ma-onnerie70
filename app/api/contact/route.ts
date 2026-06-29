@@ -1,29 +1,46 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
+const MIN_FILL_MS = 4000;
+
+// Rate limit : 3 tentatives max par IP sur une fenêtre de 10 minutes
+const RATE_LIMIT = 3;
+const WINDOW_MS = 10 * 60 * 1000;
+const ipMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = ipMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    ipMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT) return true;
+  entry.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Trop de tentatives, réessayez dans 10 minutes." }, { status: 429 });
+  }
+
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const { name, email, phone, subject, message, captchaToken } = await req.json();
+  const { name, email, phone, subject, message, _hp, _t } = await req.json();
+
+  // Honeypot rempli → bot silencieux
+  if (_hp) {
+    return NextResponse.json({ success: true });
+  }
+
+  // Formulaire rempli trop vite → bot silencieux
+  if (!_t || Date.now() - Number(_t) < MIN_FILL_MS) {
+    return NextResponse.json({ success: true });
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Champs requis manquants" }, { status: 400 });
-  }
-
-  if (!captchaToken) {
-    return NextResponse.json({ error: "Captcha manquant" }, { status: 400 });
-  }
-
-  const verifyRes = await fetch("https://api.hcaptcha.com/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      secret: process.env.HCAPTCHA_SECRET_KEY!,
-      response: captchaToken,
-    }),
-  });
-  const verifyData = await verifyRes.json() as { success: boolean };
-  if (!verifyData.success) {
-    return NextResponse.json({ error: "Captcha invalide" }, { status: 400 });
   }
 
   const subjectLabels: Record<string, string> = {

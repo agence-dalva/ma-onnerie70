@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { siteConfig } from "@/lib/data";
 
 type FormState = "idle" | "loading" | "success" | "error";
@@ -10,46 +9,60 @@ type FormState = "idle" | "loading" | "success" | "error";
 export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const captchaRef = useRef<HCaptcha>(null);
   const [formState, setFormState] = useState<FormState>("idle");
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaError, setCaptchaError] = useState(false);
+  const [formLoadedAt] = useState(() => Date.now());
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", subject: "", message: "",
   });
+  const [honeypot, setHoneypot] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; message?: string }>({});
+
+  const formatPhone = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 10);
+    return digits.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const formatted = name === "phone" ? formatPhone(value) : value;
+    setFormData({ ...formData, [name]: formatted });
+
+    if (name === "email") {
+      setErrors((prev) => ({ ...prev, email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? undefined : "Adresse email invalide" }));
+    }
+    if (name === "message") {
+      setErrors((prev) => ({ ...prev, message: value.length >= 50 ? undefined : `${value.length}/50 caractères minimum` }));
+    }
   };
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!captchaToken) {
-      setCaptchaError(true);
-      return;
-    }
-    setCaptchaError(false);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const messageValid = formData.message.length >= 50;
+    setErrors({
+      email: emailValid ? undefined : "Adresse email invalide",
+      message: messageValid ? undefined : `${formData.message.length}/50 caractères minimum`,
+    });
+    if (!emailValid || !messageValid) return;
     setFormState("loading");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, captchaToken }),
+        body: JSON.stringify({
+          ...formData,
+          _hp: honeypot,
+          _t: formLoadedAt,
+        }),
       });
       if (res.ok) {
         setFormState("success");
         setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-        setCaptchaToken(null);
-        captchaRef.current?.resetCaptcha();
       } else {
         setFormState("error");
-        captchaRef.current?.resetCaptcha();
-        setCaptchaToken(null);
       }
     } catch {
       setFormState("error");
-      captchaRef.current?.resetCaptcha();
-      setCaptchaToken(null);
     }
     setTimeout(() => setFormState("idle"), 5000);
   };
@@ -81,12 +94,6 @@ export default function Contact() {
       label: "Téléphone",
       value: siteConfig.phone,
       href: `tel:${siteConfig.phone.replace(/\s/g, "")}`,
-    },
-    {
-      icon: MailIcon,
-      label: "Email",
-      value: siteConfig.email,
-      href: `mailto:${siteConfig.email}`,
     },
     {
       icon: PinIcon,
@@ -195,40 +202,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Socials */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex gap-2.5 mt-1"
-            >
-              {[
-                { href: siteConfig.socials.facebook, label: "Facebook" },
-                { href: siteConfig.socials.instagram, label: "Instagram" },
-                { href: siteConfig.socials.youtube, label: "YouTube" },
-                { href: siteConfig.socials.tiktok, label: "TikTok" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="px-3 py-2 text-[10px] tracking-wider uppercase transition-all duration-300"
-                  style={{ border: "1px solid #E0DDD4", color: "#AAAAAA", fontFamily: "var(--font-inter)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "#B21F2D";
-                    (e.currentTarget as HTMLElement).style.color = "#B21F2D";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "#E0DDD4";
-                    (e.currentTarget as HTMLElement).style.color = "#AAAAAA";
-                  }}
-                >
-                  {s.label}
-                </a>
-              ))}
-            </motion.div>
           </div>
 
           {/* Form */}
@@ -258,10 +231,11 @@ export default function Contact() {
                   type="email" name="email" value={formData.email} onChange={handleChange} required
                   placeholder="jean@example.com"
                   className="px-4 py-3"
-                  style={inputBase}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = "#B21F2D")}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E0DDD4")}
+                  style={{ ...inputBase, borderColor: errors.email ? "#c0392b" : "#E0DDD4" }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = errors.email ? "#c0392b" : "#B21F2D")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = errors.email ? "#c0392b" : "#E0DDD4")}
                 />
+                {errors.email && <p className="mt-1 text-xs" style={{ color: "#c0392b", fontFamily: "var(--font-inter)" }}>{errors.email}</p>}
               </div>
             </div>
 
@@ -312,26 +286,25 @@ export default function Contact() {
                 name="message" value={formData.message} onChange={handleChange} required rows={5}
                 placeholder="Décrivez votre projet : localisation, type de travaux, superficie..."
                 className="px-4 py-3 resize-none"
-                style={inputBase}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "#B21F2D")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "#E0DDD4")}
+                style={{ ...inputBase, borderColor: errors.message ? "#c0392b" : "#E0DDD4" }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = errors.message ? "#c0392b" : "#B21F2D")}
+                onBlur={(e) => (e.currentTarget.style.borderColor = errors.message ? "#c0392b" : "#E0DDD4")}
               />
+              {errors.message && <p className="mt-1 text-xs" style={{ color: "#c0392b", fontFamily: "var(--font-inter)" }}>{errors.message}</p>}
             </div>
 
-            {/* Captcha */}
-            <div className="flex flex-col gap-1.5">
-              <HCaptcha
-                ref={captchaRef}
-                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
-                onVerify={(token) => { setCaptchaToken(token); setCaptchaError(false); }}
-                onExpire={() => setCaptchaToken(null)}
-                onError={() => { setCaptchaToken(null); setCaptchaError(true); }}
+            {/* Honeypot — caché des humains, visible des bots */}
+            <div style={{ position: "absolute", left: "-9999px", top: "-9999px", height: 0, overflow: "hidden" }} aria-hidden="true">
+              <label htmlFor="_hp">Ne pas remplir</label>
+              <input
+                id="_hp"
+                type="text"
+                name="_hp"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
               />
-              {captchaError && (
-                <p className="text-xs" style={{ color: "#c0392b", fontFamily: "var(--font-inter)" }}>
-                  Veuillez valider le captcha avant d'envoyer.
-                </p>
-              )}
             </div>
 
             {/* Submit row */}
@@ -341,16 +314,16 @@ export default function Contact() {
               </p>
               <button
                 type="submit"
-                disabled={formState === "loading"}
+                disabled={formState === "loading" || !!errors.email || !!errors.message || !formData.email || formData.message.length < 50}
                 className="flex items-center gap-3 px-7 py-3.5 text-xs tracking-widest uppercase font-medium transition-all duration-300 flex-shrink-0 w-full sm:w-auto justify-center"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  background: formState === "loading" ? "#B21F2D99" : "#B21F2D",
+                  background: (formState === "loading" || !!errors.email || !!errors.message || !formData.email || formData.message.length < 50) ? "#B21F2D55" : "#B21F2D",
                   color: "#fff",
-                  cursor: formState === "loading" ? "not-allowed" : "pointer",
+                  cursor: (formState === "loading" || !!errors.email || !!errors.message || !formData.email || formData.message.length < 50) ? "not-allowed" : "pointer",
                 }}
-                onMouseEnter={(e) => { if (formState !== "loading") (e.currentTarget as HTMLElement).style.background = "#8B1521"; }}
-                onMouseLeave={(e) => { if (formState !== "loading") (e.currentTarget as HTMLElement).style.background = "#B21F2D"; }}
+                onMouseEnter={(e) => { if (!(e.currentTarget as HTMLButtonElement).disabled) (e.currentTarget as HTMLElement).style.background = "#8B1521"; }}
+                onMouseLeave={(e) => { if (!(e.currentTarget as HTMLButtonElement).disabled) (e.currentTarget as HTMLElement).style.background = "#B21F2D"; }}
               >
                 {formState === "loading" ? "Envoi en cours..." : "Envoyer ma demande"}
               </button>

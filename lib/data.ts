@@ -6,7 +6,7 @@ export const siteConfig = {
   tagline: "Votre expert en maçonnerie et terrassement",
   description: "Entreprise familiale fondée avec passion. Maçonnerie, construction, rénovation et terrassement en Haute-Saône depuis 2010.",
   phone: "03 39 55 00 08",
-  email: "contact.maconnerie70@gmail.com",
+  email: "contact@maconnerie70.fr",
   address: "5 Rue Sieur de Gersanne",
   city: "Champagney",
   zip: "70290",

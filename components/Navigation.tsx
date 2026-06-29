@@ -112,7 +112,7 @@ export default function Navigation() {
         {/* Logo */}
         <button onClick={() => handleNav("#accueil")} className="flex items-center gap-3 flex-shrink-0">
           <div className="relative w-20 h-20 flex-shrink-0">
-            <Image src={siteConfig.logo} alt="Logo Maçonnerie 70" fill className="object-contain" unoptimized />
+            <Image src={siteConfig.logo} alt="Logo Maçonnerie 70" fill priority className="object-contain" unoptimized />
           </div>
           <div className="hidden sm:flex flex-col leading-tight">
             <span className="text-sm font-bold tracking-wider" style={{ fontFamily: "var(--font-barlow)", color: scrolled ? "#1A1A1A" : "#FAFAF8" }}>
@@ -382,8 +382,8 @@ export default function Navigation() {
                 <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="text-2xl font-bold" style={{ color: "#B21F2D", fontFamily: "var(--font-barlow)" }}>
                   {siteConfig.phone}
                 </a>
-                <a href={`mailto:${siteConfig.email}`} className="text-sm" style={{ color: "#999" }}>
-                  {siteConfig.email}
+                <a href="/#contact" className="text-sm" style={{ color: "#999" }}>
+                  Formulaire de contact
                 </a>
               </div>
             </div>

@@ -20,7 +20,7 @@ export default function Hero() {
   };
 
   return (
-    <div ref={ref} className="relative h-screen min-h-[700px] overflow-hidden flex items-center">
+    <div ref={ref} className="relative h-screen min-h-[700px] overflow-hidden flex items-center" style={{ position: "relative" }}>
       {/* Parallax background */}
       <motion.div className="absolute inset-0" style={{ y }}>
         {/* Image de secours */}

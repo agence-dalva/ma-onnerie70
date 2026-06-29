@@ -149,13 +149,13 @@ export default function Footer() {
               {siteConfig.phone}
             </a>
             <a
-              href={`mailto:${siteConfig.email}`}
-              className="text-sm transition-colors duration-300 break-all"
+              href="/#contact"
+              className="text-sm transition-colors duration-300"
               style={{ color: "#888", fontFamily: "var(--font-inter)" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#B21F2D")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#888")}
             >
-              {siteConfig.email}
+              Formulaire de contact
             </a>
             <p className="text-sm" style={{ color: "#666", fontFamily: "var(--font-inter)" }}>
               {siteConfig.address}<br />
