@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 0;">
           <div style="background: #0A0A0A; padding: 30px 40px;">
             <h1 style="color: #B21F2D; font-size: 22px; margin: 0; font-weight: bold; letter-spacing: 2px;">MAÇONNERIE 70</h1>
-            <p style="color: #555; font-size: 12px; margin: 4px 0 0; letter-spacing: 1px;">NOUVEAU MESSAGE VIA LE SITE</p>
+            <p style="color: #ffffff; font-size: 12px; margin: 4px 0 0; letter-spacing: 1px;">NOUVEAU MESSAGE VIA LE SITE</p>
           </div>
           <div style="padding: 40px; background: white;">
             <table style="width: 100%; border-collapse: collapse;">
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
             </div>
           </div>
           <div style="background: #0A0A0A; padding: 20px 40px; text-align: center;">
-            <p style="color: #333; font-size: 11px; margin: 0;">© ${new Date().getFullYear()} Maçonnerie 70 Père & Fils — Champagney (70290)</p>
+            <p style="color: #ffffff; font-size: 11px; margin: 0;">© ${new Date().getFullYear()} Maçonnerie 70 Père & Fils — Champagney (70290)</p>
           </div>
         </div>
       `,
